@@ -9,6 +9,7 @@ MODELS = {
     "SpalartAllmaras": ("nuTilda",),
     "kOmegaSST": ("k", "omega"),
     "kOmegaSSTLM": ("k", "omega", "gammaInt", "ReThetat"),
+    "kkLOmega": ("kt", "kl", "omega"),
 }
 FLAVORS = ("openfoam-com", "foundation")
 
@@ -94,11 +95,19 @@ def _initial_fields(case_dir, spec, direction):
             k = 1.5 * (speed * tu / 100)**2
             omega = sqrt(k) / (0.09**0.25 * _length_scale(spec))
         nut = k / omega
+        k_field = "kt" if model == "kkLOmega" else "k"
         k_wall_type = "kqRWallFunction" if wall_function else "fixedValue"
-        _field(case_dir, "k", "0 2 -2 0 0 0 0", _scalar(k),
+        _field(case_dir, k_field, "0 2 -2 0 0 0 0", _scalar(k),
                _with_value(k_wall_type, "0"), _freestream("freestream", _scalar(k)))
+        omega_wall = _with_value("omegaWallFunction", _scalar(omega))
+        if model == "kkLOmega":
+            # Walters and Cokljat (2008), Eqs. 37–39 and inlet conditions.
+            # Laminar fluctuations develop locally from a zero freestream value.
+            _field(case_dir, "kl", "0 2 -2 0 0 0 0", "0",
+                   _with_value("fixedValue", "0"), _freestream("freestream", "0"))
+            omega_wall = "type zeroGradient;"
         _field(case_dir, "omega", "0 0 -1 0 0 0 0", _scalar(omega),
-               _with_value("omegaWallFunction", _scalar(omega)),
+               omega_wall,
                _freestream("freestream", _scalar(omega)))
         if model == "kOmegaSSTLM":
             if tu <= 1.3:
@@ -243,7 +252,9 @@ def _control(spec, flavor, direction, end_time, write_interval):
     chord, span, speed = spec["chord"], spec["span"], spec["speed"]
     cosine, sine = direction
     point = _vector(-2 * chord * cosine, -2 * chord * sine, 0.5 * span)
-    probe_fields = "U" if spec["model"] == "SpalartAllmaras" else "U k omega"
+    model = spec["model"]
+    k_field = "kt" if model == "kkLOmega" else "k"
+    probe_fields = "U" if model == "SpalartAllmaras" else f"U {k_field} omega"
     surface_select = "patch farfield;" if flavor == "foundation" else "regionType patch;\n        name farfield;"
     field_lib = '("libfieldFunctionObjects.so")'
     return f"""{application}
@@ -378,8 +389,8 @@ def _validate(spec, flavor, nprocs, end_time, write_interval):
     tu = spec.get("tu")
     if tu is not None and (not isfinite(tu) or tu <= 0):
         raise ValueError("tu must be positive and finite, in percent.")
-    if spec["model"] == "kOmegaSSTLM" and tu is None:
-        raise ValueError("A value of tu in percent is required for kOmegaSSTLM.")
+    if spec["model"] in ("kOmegaSSTLM", "kkLOmega") and tu is None:
+        raise ValueError(f"A value of tu in percent is required for {spec['model']}.")
     length_scale = _length_scale(spec)
     if not isfinite(length_scale) or length_scale <= 0:
         raise ValueError("length_scale must be positive and finite, in meters.")

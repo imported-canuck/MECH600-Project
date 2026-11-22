@@ -133,17 +133,19 @@ def probe_segment(path, vector):
     return rows
 
 
-def upstream_metrics(case):
+def upstream_metrics(case, model=None):
+    energy_field = "kt" if model == "kkLOmega" else "k"
+    field_names = ("U", energy_field, "omega")
     fields = {}
-    for field in ("U", "k", "omega"):
+    for field in field_names:
         segments = segment_files(case, "upstream", [field])
         history = merge_segments(segments, lambda path: probe_segment(path, field == "U"))
         fields[field] = {row["time"]: row["value"] for row in history}
-    times = fields["U"].keys() & fields["k"].keys() & fields["omega"].keys()
+    times = fields["U"].keys() & fields[energy_field].keys() & fields["omega"].keys()
     if not times:
         return {}
     latest = max(times)
-    u, k, omega = (fields[field][latest] for field in ("U", "k", "omega"))
+    u, k, omega = (fields[field][latest] for field in field_names)
     if u <= 0 or k < 0:
         return {}
     return {"probe_time": latest, "probe_speed": u, "probe_k": k, "probe_omega": omega,
@@ -234,7 +236,7 @@ def report_runs(case, meta, window, cl_tol, cd_tol, output):
     for key in ("fluid_area", "first_cell_height_over_c", "nose_streamwise_spacing_over_c",
                 "trailing_edge_streamwise_spacing_over_c"):
         row[key] = generated.get(key)
-    row.update(upstream_metrics(case))
+    row.update(upstream_metrics(case, row["model"]))
     row.update(flux_metrics(case))
     notes = []
 
