@@ -16,7 +16,38 @@ ds_te = 0.002
 def distance(a, b):
     return math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
 
+def block_line(corners, n1, n2, grading, idx, nv):
+    ids = []
+    for name in corners:
+        ids.append(idx[name])
+    for name in corners:
+        ids.append(idx[name] + nv)
 
+    ids_text = ' '.join(str(i) for i in ids)
+    all_grading = grading + [1, 1, 1, 1]
+    g_text = ' '.join(f'{g:.8g}' for g in all_grading)
+    return f' hex ({ids_text}) ({n1} {n2} 1) edgeGrading ({g_text})\n'
+
+def spline_line(a, b, curve, z, idx, nv):
+    shift = z * nv
+    inner_points = curve[1:-1]
+    pts_text = ' '.join(f'({x:.10g} {y:.10g} {z})' for x, y in inner_points)
+    return f'spline {idx[a] + shift} {idx[b] + shift} ({pts_text})\n'
+
+def patch_text(name, kind, pairs, idx, nv):
+    text = f'{name}\n{{\n type {kind};\n faces\n(\n'
+    for a, b in pairs:
+        i = idx[a]
+        j = idx[b]
+        text = text + f'({i} {j} {j + nv} {i + nv})\n'
+    text = text + ");\n }\n"
+    return text
+
+def arc_line(a, b, mx, my, z, idx, nv):
+    shift = z * nv
+    start = idx[a] + shift
+    end = idx[b] + shift
+    return f'arc {start} {end} ({mx:.10g} {my:.10g} {z})\n'
 
 def normal(x, sign):
     if x >= XS - 0.0000001:
@@ -104,7 +135,80 @@ def make_mesh(level, dy1_coarse, radius, out_file):
     go_te = expansion_ratio(first_out, distance(pts["TEui"], pts["Tt"]), n_outer)
     go_w  = expansion_ratio(first_out, distance(pts["Wui"], pts["Wt"]), n_outer)
 
+    lines = []
+    lines.append('FoamFile\n{\n version 2.0;\n format ascii;\n' 'class dictionary;\n object blockMeshDict;\n}\n\n')
+    lines.append('scale 1;\n\n')
+    lines.append("vertices\n(\n")
+    for z in [0, 1]:
+        for name in pts:
+            x, y = pts[name]
+            lines.append(f'({x:.10g} {y:.10g} {z})  // {idx[name] + z * nv} {name}\n')
     
+    lines.append(');\n\n')
+    lines.append('blocks\n(\n')
+    lines.append(block_line(['LE', 'Su', 'Sui', 'LEi'], n_front, n_inner,
+                            [g_front] * 4 + [g_in] * 4, idx, nv))
+    lines.append(block_line(['Su', 'TE', 'TEui', 'Sui'], n_aft, n_inner,
+                            [g_aft] * 4 + [g_in] * 4, idx, nv))
+    lines.append(block_line(['TE', 'Wm', 'Wui', 'TEui'], n_wake, n_inner,
+                            [g_wake] * 4 + [g_in] * 4, idx, nv))
+    lines.append(block_line(['LEi', 'Sui', 'At', 'Af'], n_front, n_outer,
+                            [g_front, g_arc, g_arc, g_front] + [go_le, go_s, go_s, go_le], idx, nv))
+    lines.append(block_line(['Sui', 'TEui', 'Tt', 'At'], n_aft, n_outer,
+                            [g_aft] * 4 + [go_s, go_te, go_te, go_s], idx, nv))
+    lines.append(block_line(['TEui', 'Wui', 'Wt', 'Tt'], n_wake, n_outer,
+                            [g_wake, g_farwake, g_farwake, g_wake] + [go_te, go_w, go_w, go_te], idx, nv))
+
+    lines.append(block_line(['LE', 'LEi', 'Sli', 'Sl'], n_inner, n_front,
+                            [g_in] * 4 + [g_front] * 4, idx, nv))
+    lines.append(block_line(['Sl', 'Sli', 'TEli', 'TE'], n_inner, n_aft,
+                            [g_in] * 4 + [g_aft] * 4, idx, nv))
+    lines.append(block_line(['TE', 'TEli', 'Wli', 'Wm'], n_inner, n_wake,
+                            [g_in] * 4 + [g_wake] * 4, idx, nv))
+    lines.append(block_line(['LEi', 'Af', 'Ab', 'Sli'], n_outer, n_front,
+                            [go_le, go_s, go_s, go_le] + [g_front, g_arc, g_arc, g_front], idx, nv))
+    lines.append(block_line(['Sli', 'Ab', 'Tb', 'TEli'], n_outer, n_aft,
+                            [go_s, go_te, go_te, go_s] + [g_aft] * 4, idx, nv))
+    lines.append(block_line(['TEli', 'Tb', 'Wb', 'Wli'], n_outer, n_wake,
+                            [go_te, go_w, go_w, go_te] + [g_wake, g_farwake, g_farwake, g_wake], idx, nv))
+    
+    lines.append(');\n\n')
+
+    up_f, lo_f = surface_points(60, 0, XS)
+    up_a, lo_a = surface_points(60, XS, 1)
+    off_up = offset(0, XS, 1)
+    off_lo = offset(0, XS, -1)
+    mid = 0.5 * (math.pi + math.pi / 2 + phi)
+    mx = XS + radius * math.cos(mid)
+    my = radius * math.sin(mid)
+    lines.append('edges\n(\n')
+
+    for z in [0, 1]:
+        lines.append(spline_line('LE', 'Su', up_f, z, idx, nv))
+        lines.append(spline_line('Su', 'TE', up_a, z, idx, nv))
+        lines.append(spline_line('LE', 'Sl', lo_f, z, idx, nv))
+        lines.append(spline_line('Sl', 'TE', lo_a, z, idx, nv))
+        lines.append(spline_line('LEi', 'Sui', off_up, z, idx, nv))
+        lines.append(spline_line('LEi', 'Sli', off_lo, z, idx, nv))
+        lines.append(arc_line('Af', 'At', mx, my, z, idx, nv))
+        lines.append(arc_line('Af', 'Ab', mx, -my, z, idx, nv))
+    lines.append(');\n\n')
+
+    lines.append('boundary\n(\n')
+    lines.append(patch_text('airfoil', 'wall',
+                            [('LE', 'Su'), ('Su', 'TE'), ('LE', 'Sl'), ('Sl', 'TE')], idx, nv))
+    lines.append(patch_text('farfield', 'patch',
+                            [('Af', 'At'), ('At', 'Tt'), ('Tt', 'Wt'), ('Wt', 'Wui'), ('Wui', 'Wm'),
+                             ('Wm', 'Wli'), ('Wli', 'Wb'), ('Wb', 'Tb'), ('Tb', 'Ab'), ('Ab', 'Af')],
+                            idx, nv))
+    lines.append(');\n\n')
+    lines.append('defaultPatch\n{\n    name frontAndBack;\n    type empty;\n}\n')
+
+    with open(out_file, 'w') as f:
+        f.writelines(lines)
+    cells = (n_inner + n_outer) * 2 * (n_front + n_aft + n_wake)
+    print(f'level {level}: {cells} cells, first cell {dy1:.2e}, wall-normal growth {q_in:.3f}, wrote {out_file}')
+
 
 if __name__ == "__main__":
     make_mesh(level=0, dy1_coarse=3e-6, radius=100, out_file="blockMeshDict")
