@@ -1,0 +1,85 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+
+application     simpleFoam;
+startFrom       latestTime;
+startTime       0;
+stopAt          endTime;
+endTime         8000;
+deltaT          1;
+writeControl    timeStep;
+writeInterval   1000;
+purgeWrite      2;
+writeFormat     binary;
+writePrecision  10;
+timeFormat      general;
+runTimeModifiable true;
+
+functions
+{
+    forceCoeffs
+    {
+        type            forceCoeffs;
+        libs            (forces);
+        writeControl    timeStep;
+        writeInterval   1;
+        patches         (airfoil);
+        rho             rhoInf;
+        rhoInf          1;
+        magUInf         1;
+        lRef            1;
+        Aref            1;
+        liftDir         (-0.17364818 0.98480775 0);
+        dragDir         (0.98480775 0.17364818 0);
+        CofR            (0.25 0 0);
+        pitchAxis       (0 0 1);
+    }
+
+    residuals
+    {
+        type            solverInfo;
+        libs            (utilityFunctionObjects);
+        fields          (U p k omega nuTilda);
+        writeControl    timeStep;
+        writeInterval   1;
+    }
+
+    yPlus
+    {
+        type            yPlus;
+        libs            (fieldFunctionObjects);
+        writeControl    writeTime;
+    }
+
+    wallShearStress
+    {
+        type            wallShearStress;
+        libs            (fieldFunctionObjects);
+        patches         (airfoil);
+        writeControl    writeTime;
+    }
+
+    airfoilSurface
+    {
+        type            surfaces;
+        libs            (sampling);
+        writeControl    writeTime;
+        surfaceFormat   raw;
+        interpolationScheme cell;
+        fields          (p wallShearStress yPlus);
+        surfaces
+        {
+            airfoil
+            {
+                type        patch;
+                patches     (airfoil);
+                interpolate false;
+            }
+        }
+    }
+}
