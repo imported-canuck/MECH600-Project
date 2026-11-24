@@ -1,0 +1,29 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      nuTilda;
+}
+
+dimensions      [0 2 -1 0 0 0 0];
+internalField   uniform 5.0e-7;
+
+boundaryField
+{
+    airfoil
+    {
+        type            fixedValue;
+        value           uniform 0;
+    }
+    farfield
+    {
+        type            inletOutlet;
+        inletValue      uniform 5.0e-7;
+        value           uniform 5.0e-7;
+    }
+    frontAndBack
+    {
+        type            empty;
+    }
+}
