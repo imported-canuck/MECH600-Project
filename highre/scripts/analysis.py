@@ -78,21 +78,31 @@ if __name__ == '__main__':
         for case in CASES:
             r = results[case]
             w.writerow([case, CELLS[case], r['cl'], r['cl_amp'], r['cd'], r['cd_amp'], r['cl_err'], r['cd_err']])
+            
+    N_AVG = 200
 
-    fig, ax = plt.subplots(2, 1, figsize=(9, 6), sharex=True)
-    for case in CASES:
+    def running_avg(values):
+        '''Average of each block of N_AVG consecutive values.'''
+        return np.convolve(values, np.ones(N_AVG) / N_AVG, mode='valid')
+
+    for i, case in enumerate(CASES):
         it, cd, cl = read_coeffs(case)
-        keep = it > it[-1] - 4000
-        ax[0].plot(it[keep], cl[keep], lw=0.8, label=case)
-        ax[1].plot(it[keep], cd[keep], lw=0.8, label=case)
-    ax[0].axhline(CL_EXP, color='k', ls='--', lw=1, label='Ladson')
-    ax[1].axhline(CD_EXP, color='k', ls='--', lw=1, label='Ladson')
-    ax[0].set_ylabel('$C_L$')
-    ax[1].set_ylabel('$C_D$')
-    ax[1].set_xlabel('iteration')
-    ax[0].legend(fontsize=7, ncol=4)
-    for a in ax:
-        a.grid(alpha=0.3)
-    fig.tight_layout()
-    fig.savefig('force_history.png', dpi=200)
-    print('\nwrote results.csv and force_history.png')
+        it_avg = it[N_AVG - 1:]
+
+        fig, ax = plt.subplots(1, 2, figsize=(10, 3.5))
+        for j, (vals, name, label) in enumerate([(cl, 'cl', '$C_L$'), (cd, 'cd', '$C_D$')]):
+            a = ax[j]
+            a.plot(it, vals, color='0.75', lw=0.4, label='every iteration')
+            a.plot(it_avg, running_avg(vals), color=f'C{i}', lw=1.5, label=f'{N_AVG}-iteration average')
+            final = results[case][name]
+            spread = max(4 * results[case][name + '_amp'], 0.05 * final)
+            a.set_ylim(final - spread, final + spread)
+            a.set_xlabel('iteration')
+            a.set_ylabel(label)
+            a.grid(alpha=0.3)
+        ax[0].legend(fontsize=8, loc='lower right')
+        fig.suptitle(f'{case}: convergence history', fontsize=11)
+        fig.tight_layout()
+        fig.savefig(f'convergence_{case}.png', dpi=200)
+        plt.close(fig)
+        print(f'wrote convergence_{case}.png')
