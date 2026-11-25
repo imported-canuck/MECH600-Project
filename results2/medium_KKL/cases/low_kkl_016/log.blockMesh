@@ -1,0 +1,133 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _1d8f0d55f7-20231221 OPENFOAM=2312 version=v2312
+Arch   : "LSB;label=32;scalar=64"
+Exec   : blockMesh -case /project/60004/carslan04/mech600-grid-study-20261124/results2/mesh-build.Lhcj5W
+Date   : Nov 24 2026
+Time   : 17:14:47
+Host   : cpupool5.int.mech501.calculquebec.cloud
+PID    : 9622
+I/O    : uncollated
+Case   : /project/60004/carslan04/mech600-grid-study-20261124/results2/mesh-build.Lhcj5W
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Creating block mesh from "system/blockMeshDict"
+Creating block edges
+No non-planar block faces defined
+Creating topology blocks
+
+Creating topology patches - from boundary section
+
+Creating block mesh topology - scaling/transform applied later
+--> FOAM Warning : 
+    From Foam::polyMesh::polyMesh(const Foam::IOobject&, Foam::pointField&&, const Foam::cellShapeList&, const Foam::faceListList&, const Foam::wordList&, const Foam::PtrList<Foam::dictionary>&, const Foam::word&, const Foam::word&, bool)
+    in file meshes/polyMesh/polyMeshFromShapeMesh.C at line 915
+    Found 24 undefined faces in mesh; adding to default patch frontAndBack
+
+Check topology
+
+	Basic statistics
+		Number of internal faces : 17
+		Number of boundary faces : 38
+		Number of defined boundary faces : 38
+		Number of undefined boundary faces : 0
+	Checking patch -> block consistency
+
+Creating block offsets
+Creating merge list (topological search)...
+
+Creating polyMesh from blockMesh
+Creating patches
+Creating cells
+Creating points with scale (0.2 0.2 0.2)
+    Block 0 cell size :
+        i : 8.00039995887e-05 .. 0.000548079080545
+        j : 1.31670994907e-06 .. 0.00110072242444
+        k : 0.002 .. 0.002
+
+    Block 1 cell size :
+        i : 0.00763194351708 .. 3.10749058131e-05
+        j : 1.31670994907e-06 .. 0.00110072242444
+        k : 0.002 .. 0.002
+
+    Block 2 cell size :
+        i : 3.10817999178e-05 .. 0.360727057565
+        j : 1.31670994907e-06 .. 0.00110072242444
+        k : 0.002 .. 0.002
+
+    Block 3 cell size :
+        i : 0.000119678844371 .. 0.000820033193645
+        j : 0.00116475347106 .. 0.276344487222
+        k : 0.002 .. 0.002
+
+    Block 4 cell size :
+        i : 0.00763194351708 .. 3.10749058137e-05
+        j : 0.00116475347106 .. 0.27982123468
+        k : 0.002 .. 0.002
+
+    Block 5 cell size :
+        i : 3.10923037913e-05 .. 0.360848962712
+        j : 0.00116475347106 .. 0.280554700828
+        k : 0.002 .. 0.002
+
+    Block 6 cell size :
+        i : 1.31670994907e-06 .. 0.00110072242444
+        j : 8.00039995887e-05 .. 0.000548079080545
+        k : 0.002 .. 0.002
+
+    Block 7 cell size :
+        i : 1.31670994908e-06 .. 0.00110072242444
+        j : 0.00763194351708 .. 3.10749058131e-05
+        k : 0.002 .. 0.002
+
+    Block 8 cell size :
+        i : 1.31670994907e-06 .. 0.00110072242444
+        j : 3.10817999178e-05 .. 0.360727057565
+        k : 0.002 .. 0.002
+
+    Block 9 cell size :
+        i : 0.00116475347106 .. 0.276344487222
+        j : 0.000119678844371 .. 0.000820033193645
+        k : 0.002 .. 0.002
+
+    Block 10 cell size :
+        i : 0.00116475347106 .. 0.27982123468
+        j : 0.00763194351708 .. 3.10749058137e-05
+        k : 0.002 .. 0.002
+
+    Block 11 cell size :
+        i : 0.00116475347106 .. 0.280554700828
+        j : 3.10923037913e-05 .. 0.360848962712
+        k : 0.002 .. 0.002
+
+No patch pairs to merge
+
+Writing polyMesh with 0 cellZones
+----------------
+Mesh Information
+----------------
+  boundingBox: (-4.94 -4.53153893518 0) (5.2 4.53153893518 0.002)
+  nPoints: 422028
+  nCells: 209952
+  nFaces: 840870
+  nInternalFaces: 418842
+----------------
+Patches
+----------------
+  patch 0 (start: 418842 size: 720) name: airfoil
+  patch 1 (start: 419562 size: 1404) name: farfield
+  patch 2 (start: 420966 size: 419904) name: frontAndBack
+
+End
+

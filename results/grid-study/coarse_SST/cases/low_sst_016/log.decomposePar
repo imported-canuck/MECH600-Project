@@ -1,0 +1,105 @@
+
+# decomposePar -force
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _1d8f0d55f7-20231221 OPENFOAM=2312 version=v2312
+Arch   : "LSB;label=32;scalar=64"
+Exec   : decomposePar -force
+Date   : Nov 24 2026
+Time   : 08:27:10
+Host   : cpupool4.int.mech501.calculquebec.cloud
+PID    : 69480
+--> FOAM Warning : 
+    From Foam::fileName Foam::cwd_L()
+    in file POSIX.C at line 552
+    PWD is not the cwd() - reverting to physical description
+I/O    : uncollated
+--> FOAM Warning : 
+    From Foam::fileName Foam::cwd_L()
+    in file POSIX.C at line 552
+    PWD is not the cwd() - reverting to physical description
+Case   : /project/60004/carslan04/mech600-grid-study-20261124/coarse/cases/low_sst_016
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+
+
+Decomposing mesh
+
+Create mesh
+
+Calculating distribution of cells
+Decomposition method scotch [4] (region region0)
+
+Finished decomposition in 0.06 s
+
+Calculating original mesh data
+
+Distributing cells to processors
+
+Distributing faces to processors
+
+Distributing points to processors
+
+Constructing processor meshes
+
+Processor 0
+    Number of cells = 23122
+    Number of points = 46856
+    Number of faces shared with processor 1 = 145
+    Number of faces shared with processor 3 = 144
+    Number of processor patches = 2
+    Number of processor faces = 289
+    Number of boundary faces = 46565
+
+Processor 1
+    Number of cells = 23348
+    Number of points = 47314
+    Number of faces shared with processor 0 = 145
+    Number of faces shared with processor 2 = 87
+    Number of processor patches = 2
+    Number of processor faces = 232
+    Number of boundary faces = 47080
+
+Processor 2
+    Number of cells = 23511
+    Number of points = 47642
+    Number of faces shared with processor 1 = 87
+    Number of faces shared with processor 3 = 145
+    Number of processor patches = 2
+    Number of processor faces = 232
+    Number of boundary faces = 47408
+
+Processor 3
+    Number of cells = 23331
+    Number of points = 47278
+    Number of faces shared with processor 0 = 144
+    Number of faces shared with processor 2 = 145
+    Number of processor patches = 2
+    Number of processor faces = 289
+    Number of boundary faces = 46987
+
+Number of processor faces = 521
+Max number of cells = 23511 (0.784465020576% above average 23328)
+Max number of processor patches = 2 (0% above average 2)
+Max number of faces between processors = 289 (10.9404990403% above average 260.5)
+
+Time = 0
+
+Processor 0: field transfer
+Processor 1: field transfer
+Processor 2: field transfer
+Processor 3: field transfer
+
+End
+

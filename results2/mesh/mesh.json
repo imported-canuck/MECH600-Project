@@ -1,0 +1,18 @@
+{
+  "backend": "blockMesh",
+  "cells": 209952,
+  "chord": 0.2,
+  "span": 0.002,
+  "outer_extent_in_chords": 25.0,
+  "level": "medium",
+  "wall_treatment": "resolved",
+  "alpha_deg": 10.0,
+  "transition_mesh": true,
+  "first_cell_height_over_c": 6.5835497453624065e-06,
+  "first_cell_height_m": 1.3167099490724815e-06,
+  "wall_faces_per_side": 360,
+  "normal_cells": 216,
+  "wake_cells": 126,
+  "wake_outlet_band_over_c": 0.75,
+  "wake_outlet_first_height_over_c": 0.005
+}

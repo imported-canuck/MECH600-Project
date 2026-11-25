@@ -1,0 +1,55 @@
+{
+  "defaults": {
+    "group": "high",
+    "chord": 1.0,
+    "speed": 52.08,
+    "reynolds": 6000000,
+    "alpha": 10.0,
+    "radius": 500.0,
+    "level": "medium",
+    "model": "kOmegaSST",
+    "wall_treatment": "resolved",
+    "tu": null,
+    "length_scale": null,
+    "iterations": 6000,
+    "transition_mesh": false
+  },
+  "cases": {
+    "high_sst_medium": {},
+    "high_sst_coarse": {"level": "coarse"},
+    "high_sst_fine": {"level": "fine"},
+    "high_sst_domain": {"radius": 250.0},
+    "high_sa_fine": {"model": "SpalartAllmaras", "level": "fine"},
+    "high_sst_wall": {"wall_treatment": "function", "level": "fine"}
+  },
+  "groups": {
+    "verification": ["high_sst_medium", "high_sst_coarse", "high_sst_fine", "high_sst_domain"],
+    "comparison": ["high_sa_fine", "high_sst_wall"]
+  },
+  "analysis": {
+    "gci_cases": ["high_sst_fine", "high_sst_medium", "high_sst_coarse"],
+    "contrasts": {
+      "high_domain_500c_minus_250c": ["high_sst_medium", "high_sst_domain"],
+      "high_SA_minus_SST": ["high_sa_fine", "high_sst_fine"],
+      "high_wall_function_minus_resolved": ["high_sst_wall", "high_sst_fine"]
+    },
+    "plot_force_history": true,
+    "wall_resolution_cases": ["high_sst_coarse", "high_sst_medium", "high_sst_fine", "high_sa_fine", "high_sst_wall"],
+    "surface_plot": {
+      "cases": ["high_sst_fine", "high_sa_fine", "high_sst_wall"],
+      "sides": ["upper", "lower"],
+      "x_limits": [0, 1]
+    },
+    "force_reference": {
+      "name": "ladson",
+      "alpha": 10,
+      "primary_grit": 120,
+      "source": "https://raw.githubusercontent.com/TMBWG/turbmodels/main/NACA0012_validation/CLCD_Ladson_expdata.dat",
+      "points_by_grit": {
+        "80": [[8.30, 0.8873, 0.01050], [10.12, 1.0707, 0.01201]],
+        "120": [[8.08, 0.8701, 0.00995], [10.10, 1.0775, 0.01175]],
+        "180": [[8.09, 0.8689, 0.00985], [10.18, 1.0809, 0.01165]]
+      }
+    }
+  }
+}

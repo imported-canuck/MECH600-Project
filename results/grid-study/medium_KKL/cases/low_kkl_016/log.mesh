@@ -1,0 +1,32 @@
+
+# /opt/ipython-kernel-computecanada/bin/python3 /scratch/carslan04/mech600-step4-20261124/code/mesh/generate.py --output /scratch/carslan04/mech600-step4-20261124/cases/.prepare-65ft52ts/low_sst_016/airfoil.msh --metadata /scratch/carslan04/mech600-step4-20261124/cases/.prepare-65ft52ts/low_sst_016/mesh.json --chord 0.2 --radius 25.0 --level medium --wall resolved --alpha 10.0 --backend gmsh --transition
+Info    : Writing '/scratch/carslan04/mech600-step4-20261124/cases/.prepare-65ft52ts/low_sst_016/airfoil.msh'...
+Info    : Done writing '/scratch/carslan04/mech600-step4-20261124/cases/.prepare-65ft52ts/low_sst_016/airfoil.msh'
+{
+  "backend": "gmsh",
+  "cells": 209952,
+  "nodes": 422028,
+  "fluid_area": 97.46165975578768,
+  "min_cell_volume_m3": 8.267096979607724e-14,
+  "chord": 0.2,
+  "span": 0.002,
+  "outer_extent_in_chords": 25.0,
+  "level": "medium",
+  "wall_treatment": "resolved",
+  "alpha_deg": 10.0,
+  "transition_mesh": true,
+  "wall_faces_per_side": 360,
+  "normal_cells": 216,
+  "wake_cells": 126,
+  "first_cell_height_over_c": 6.5835497453624065e-06,
+  "first_cell_height_m": 1.3167099490724815e-06,
+  "nose_streamwise_spacing_over_c": 0.00011308214122607296,
+  "max_streamwise_spacing_before_x_c_0p15": 0.0008439777502644574,
+  "trailing_edge_streamwise_spacing_over_c": 0.00015540899958921273,
+  "min_corner_cross_product_m2": 4.133545975399867e-11,
+  "boundary_faces": {
+    "airfoil": 720,
+    "farfield": 1404,
+    "frontAndBack": 419904
+  }
+}

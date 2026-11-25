@@ -1,0 +1,67 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+
+solvers
+{
+    p
+    {
+        solver GAMG;
+        tolerance 1e-9;
+        relTol 0.02;
+        smoother GaussSeidel;
+    }
+
+    Phi
+    {
+        solver GAMG;
+        tolerance 1e-8;
+        relTol 0;
+        smoother GaussSeidel;
+        maxIter 400;
+    }
+
+    "(U|kt|kl|omega)"
+    {
+        solver smoothSolver;
+        smoother symGaussSeidel;
+        nSweeps 2;
+        tolerance 1e-9;
+        relTol 0.05;
+        maxIter 100;
+    }
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 1;
+    pRefCell 0;
+    pRefValue 0;
+}
+
+potentialFlow
+{
+    nNonOrthogonalCorrectors 2;
+    PhiRefCell 0;
+    PhiRefValue 0;
+}
+
+relaxationFactors
+{
+    fields
+    {
+        p 0.15;
+    }
+    equations
+    {
+        U 0.35;
+        kt 0.15;
+        kl 0.15;
+        omega 0.15;
+    }
+}

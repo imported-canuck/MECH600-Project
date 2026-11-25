@@ -1,0 +1,128 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    arch        "LSB;label=32;scalar=64";
+    class       dictionary;
+    location    "6000/uniform/functionObjects";
+    object      functionObjectProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+cdf7e925f5746741c316f5fbcf39ad0dfca90775
+{
+    forceCoeffs
+    {
+        scalar
+        {
+            Cd              0.0307576099109769;
+            CdPressure      0.02202444210692163;
+            CdViscous       0.008733167804055277;
+            CdInternal      0;
+            Cd(f)           0.0105206286261208;
+            Cd(f)Pressure   0.006158952491513566;
+            Cd(f)Viscous    0.004361676134607237;
+            Cd(f)Internal   0;
+            Cd(r)           0.0202369812848561;
+            Cd(r)Pressure   0.01586548961540806;
+            Cd(r)Viscous    0.00437149166944804;
+            Cd(r)Internal   0;
+            Cl              0.9716352658737238;
+            ClPressure      0.9706537123896433;
+            ClViscous       0.0009815534840805706;
+            ClInternal      0;
+            Cl(f)           0.4995713250930585;
+            Cl(f)Pressure   0.4986328895727649;
+            Cl(f)Viscous    0.0009384355202936379;
+            Cl(f)Internal   0;
+            Cl(r)           0.4720639407806653;
+            Cl(r)Pressure   0.4720208228168784;
+            Cl(r)Viscous    4.311796378693271e-05;
+            Cl(r)Internal   0;
+            CmPitch         0.0137536921561966;
+            CmPitchPressure 0.01330603337794324;
+            CmPitchViscous  0.0004476587782533526;
+            CmPitchInternal 0;
+            CmRoll          -0.004858176329367649;
+            CmRollPressure  -0.004853268561947247;
+            CmRollViscous   -4.907767420401862e-06;
+            CmRollInternal  0;
+            CmYaw           0.0001537880495548541;
+            CmYawPressure   0.0001101222105345864;
+            CmYawViscous    4.366583902026765e-05;
+            CmYawInternal   0;
+            Cs              -1.034626365790735e-19;
+            CsPressure      -1.407140751564043e-19;
+            CsViscous       3.725143857733084e-20;
+            CsInternal      0;
+            Cs(f)           0.000153788049554854;
+            Cs(f)Pressure   0.0001101222105345863;
+            Cs(f)Viscous    4.366583902026767e-05;
+            Cs(f)Internal   0;
+            Cs(r)           -0.0001537880495548541;
+            Cs(r)Pressure   -0.0001101222105345865;
+            Cs(r)Viscous    -4.366583902026763e-05;
+            Cs(r)Internal   0;
+        }
+    }
+    forces
+    {
+        vector
+        {
+            pressureForce   ( -0.00293724813919 0.0191946361137 2.81428150313e-21 );
+            viscousForce    ( 0.00016860092776 4.96628031111e-05 -7.45028771547e-22 );
+            internalForce   ( 0 0 0 );
+            pressureMoment  ( -1.91946361137e-05 -2.93724813919e-06 -5.32241335118e-05 );
+            viscousMoment   ( -4.96628031111e-08 1.6860092776e-07 -1.79063511301e-06 );
+            internalMoment  ( 0 0 0 );
+        }
+    }
+    upstream
+    {
+        scalar
+        {
+            average(k)      0.0003381970738724444;
+            min(k)          0.0003381970738724444;
+            max(k)          0.0003381970738724444;
+            average(omega)  3.166422864253231;
+            min(omega)      3.166422864253231;
+            max(omega)      3.166422864253231;
+        }
+        label
+        {
+            size(k)         1;
+            size(omega)     1;
+            size(U)         1;
+        }
+        vector
+        {
+            average(U)      ( 9.761892166359999 2.05055368567 1.2228630929e-18 );
+            min(U)          ( 9.761892166359999 2.05055368567 1.2228630929e-18 );
+            max(U)          ( 9.761892166359999 2.05055368567 1.2228630929e-18 );
+        }
+    }
+    netFlux
+    {
+        scalar
+        {
+            sum(farfield,phi) -4.877482029375102e-09;
+        }
+    }
+    absoluteFlux
+    {
+        scalar
+        {
+            sumMag(farfield,phi) 0.432576188006124;
+        }
+    }
+}
+
+
+// ************************************************************************* //

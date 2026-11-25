@@ -1,0 +1,12 @@
+comparison,case_a,case_b,both_force_plateaus
+low_LM_minus_SST_at_0.16pct,low_lm_016,low_sst_016,False
+low_LM_minus_SST_at_1pct,low_lm_100,low_sst_100,False
+low_1pct_minus_0.16pct_SST,low_sst_100,low_sst_016,False
+low_1pct_minus_0.16pct_LM,low_lm_100,low_lm_016,False
+low_fine_minus_base_LM,low_lm_016_fine,low_lm_016,False
+low_larger_domain_minus_base_LM,low_lm_016_domain,low_lm_016,False
+low_KKL_minus_SST_at_0.16pct,low_kkl_016,low_sst_016,False
+low_KKL_minus_SST_at_1pct,low_kkl_100,low_sst_100,False
+low_KKL_minus_LM_at_0.16pct,low_kkl_016,low_lm_016,False
+low_KKL_minus_LM_at_1pct,low_kkl_100,low_lm_100,False
+low_1pct_minus_0.16pct_KKL,low_kkl_100,low_kkl_016,False

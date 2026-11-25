@@ -1,0 +1,123 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+
+application simpleFoam;
+
+startFrom startTime;
+startTime 1500;
+stopAt endTime;
+endTime 7000;
+deltaT 1;
+
+writeControl runTime;
+writeInterval 250;
+purgeWrite 3;
+writeFormat ascii;
+writePrecision 12;
+writeCompression off;
+timeFormat general;
+timePrecision 12;
+runTimeModifiable true;
+
+functions
+{
+    forceCoeffs
+    {
+        type forceCoeffs;
+        libs ("libforces.so");
+        patches (airfoil);
+        rho rhoInf;
+        rhoInf 1;
+        pRef 0;
+        CofR (0.05 0 0);
+        dragDir (0.984807753012 0.173648177667 0);
+        liftDir (-0.173648177667 0.984807753012 0);
+        pitchAxis (0 0 1);
+        magUInf 10;
+        lRef 0.2;
+        Aref 0.0004;
+        writeControl timeStep;
+        writeInterval 5;
+        writePrecision 12;
+        log false;
+    }
+
+    forces
+    {
+        type forces;
+        libs ("libforces.so");
+        patches (airfoil);
+        rho rhoInf;
+        rhoInf 1;
+        pRef 0;
+        CofR (0.05 0 0);
+        writeControl timeStep;
+        writeInterval 5;
+        writePrecision 12;
+        log false;
+    }
+
+    yPlus
+    {
+        type yPlus;
+        libs ("libfieldFunctionObjects.so");
+        executeControl writeTime;
+        writeControl writeTime;
+        writeFields true;
+    }
+
+    wallShearStress
+    {
+        type wallShearStress;
+        libs ("libfieldFunctionObjects.so");
+        patches (airfoil);
+        executeControl writeTime;
+        writeControl writeTime;
+        writeFields true;
+    }
+
+    upstream
+    {
+        type probes;
+        libs ("libsampling.so");
+        fields (U kt omega);
+        probeLocations ((-0.393923101205 -0.0694592710668 0.001));
+        interpolationScheme cell;
+        writeControl timeStep;
+        writeInterval 10;
+    }
+
+    netFlux
+    {
+        type surfaceFieldValue;
+        libs ("libfieldFunctionObjects.so");
+        regionType patch;
+        name farfield;
+        operation sum;
+        fields (phi);
+        writeFields false;
+        writeControl timeStep;
+        writeInterval 10;
+        log false;
+    }
+
+    absoluteFlux
+    {
+        type surfaceFieldValue;
+        libs ("libfieldFunctionObjects.so");
+        regionType patch;
+        name farfield;
+        operation sumMag;
+        fields (phi);
+        writeFields false;
+        writeControl timeStep;
+        writeInterval 10;
+        log false;
+    }
+}

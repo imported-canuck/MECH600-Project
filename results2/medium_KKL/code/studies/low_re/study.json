@@ -1,0 +1,66 @@
+{
+  "defaults": {
+    "group": "low",
+    "chord": 0.2,
+    "speed": 10.0,
+    "reynolds": 130000,
+    "alpha": 10.0,
+    "radius": 25.0,
+    "level": "medium",
+    "model": "kOmegaSST",
+    "wall_treatment": "resolved",
+    "tu": 0.16,
+    "length_scale": 0.01,
+    "iterations": 7000,
+    "transition_mesh": true
+  },
+  "cases": {
+    "low_sst_016": {},
+    "low_lm_016": {"model": "kOmegaSSTLM"},
+    "low_sst_100": {"tu": 1.0},
+    "low_lm_100": {"model": "kOmegaSSTLM", "tu": 1.0},
+    "low_lm_016_fine": {"model": "kOmegaSSTLM", "level": "fine"},
+    "low_lm_016_domain": {"model": "kOmegaSSTLM", "radius": 50.0},
+    "low_kkl_016": {"model": "kkLOmega"},
+    "low_kkl_100": {"model": "kkLOmega", "tu": 1.0}
+  },
+  "groups": {
+    "transition": [
+      "low_sst_016", "low_lm_016", "low_sst_100", "low_lm_100",
+      "low_lm_016_fine", "low_lm_016_domain", "low_kkl_016", "low_kkl_100"
+    ]
+  },
+  "analysis": {
+    "contrasts": {
+      "low_LM_minus_SST_at_0.16pct": ["low_lm_016", "low_sst_016"],
+      "low_LM_minus_SST_at_1pct": ["low_lm_100", "low_sst_100"],
+      "low_1pct_minus_0.16pct_SST": ["low_sst_100", "low_sst_016"],
+      "low_1pct_minus_0.16pct_LM": ["low_lm_100", "low_lm_016"],
+      "low_fine_minus_base_LM": ["low_lm_016_fine", "low_lm_016"],
+      "low_larger_domain_minus_base_LM": ["low_lm_016_domain", "low_lm_016"],
+      "low_KKL_minus_SST_at_0.16pct": ["low_kkl_016", "low_sst_016"],
+      "low_KKL_minus_SST_at_1pct": ["low_kkl_100", "low_sst_100"],
+      "low_KKL_minus_LM_at_0.16pct": ["low_kkl_016", "low_lm_016"],
+      "low_KKL_minus_LM_at_1pct": ["low_kkl_100", "low_lm_100"],
+      "low_1pct_minus_0.16pct_KKL": ["low_kkl_100", "low_kkl_016"]
+    },
+    "surface_plot": {
+      "cases": ["low_lm_016", "low_lm_100", "low_sst_016", "low_sst_100", "low_kkl_016", "low_kkl_100"],
+      "sides": ["upper"],
+      "x_limits": [0, 0.18]
+    },
+    "bubble_reference": {
+      "name": "hata",
+      "label": "Hata et al.",
+      "measurements": {
+        "reynolds": 130000,
+        "alpha": 10,
+        "tu_upper_bound_pct": 0.16,
+        "sep_min_x_over_c": 0.011,
+        "sep_max_x_over_c": 0.025,
+        "reatt_approx_x_over_c": 0.10,
+        "source": "https://www.jstage.jst.go.jp/article/jjsass/50/582/50_582_293/_pdf"
+      }
+    }
+  }
+}

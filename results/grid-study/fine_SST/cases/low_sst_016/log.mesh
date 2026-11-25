@@ -1,0 +1,32 @@
+
+# /opt/ipython-kernel-computecanada/bin/python3 /project/60004/carslan04/mech600-grid-study-20261124/fine/code/mesh/generate.py --output /project/60004/carslan04/mech600-grid-study-20261124/fine/cases/.prepare-26p01o8i/low_sst_016/airfoil.msh --metadata /project/60004/carslan04/mech600-grid-study-20261124/fine/cases/.prepare-26p01o8i/low_sst_016/mesh.json --chord 0.2 --radius 25.0 --level fine --wall resolved --alpha 10.0 --backend gmsh --transition
+Info    : Writing '/project/60004/carslan04/mech600-grid-study-20261124/fine/cases/.prepare-26p01o8i/low_sst_016/airfoil.msh'...
+Info    : Done writing '/project/60004/carslan04/mech600-grid-study-20261124/fine/cases/.prepare-26p01o8i/low_sst_016/airfoil.msh'
+{
+  "backend": "gmsh",
+  "cells": 472392,
+  "nodes": 947970,
+  "fluid_area": 97.46195739196641,
+  "min_cell_volume_m3": 2.429249919686227e-14,
+  "chord": 0.2,
+  "span": 0.002,
+  "outer_extent_in_chords": 25.0,
+  "level": "fine",
+  "wall_treatment": "resolved",
+  "alpha_deg": 10.0,
+  "transition_mesh": true,
+  "wall_faces_per_side": 540,
+  "normal_cells": 324,
+  "wake_cells": 189,
+  "first_cell_height_over_c": 4.3526009103550395e-06,
+  "first_cell_height_m": 8.70520182071008e-07,
+  "nose_streamwise_spacing_over_c": 5.504285194035674e-05,
+  "max_streamwise_spacing_before_x_c_0p15": 0.0005646151547296085,
+  "trailing_edge_streamwise_spacing_over_c": 6.907265445477151e-05,
+  "min_corner_cross_product_m2": 1.2146244823976244e-11,
+  "boundary_faces": {
+    "airfoil": 1080,
+    "farfield": 2106,
+    "frontAndBack": 944784
+  }
+}

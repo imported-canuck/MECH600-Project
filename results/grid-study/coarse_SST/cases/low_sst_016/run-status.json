@@ -1,0 +1,12 @@
+{
+  "status": "finished",
+  "exit_code": 0,
+  "wall_seconds": 637.1486209999966,
+  "nprocs": 4,
+  "openfoam_version": "v2312",
+  "mesh_geometry_audit": "cell_determinant_only",
+  "mesh_checked": true,
+  "decomposed": true,
+  "solve_started": true,
+  "latest_iteration": 7000
+}

@@ -1,1 +1,5 @@
 *.sbatch text eol=lf
+/medium-25c.msh filter=lfs diff=lfs merge=lfs -text
+/results/grid-study/fine_SST-LM/cases/low_lm_016/constant/polyMesh/faces filter=lfs diff=lfs merge=lfs -text
+/results/grid-study/fine_SST/cases/low_sst_016/airfoil.msh filter=lfs diff=lfs merge=lfs -text
+/results/grid-study/fine_SST/cases/low_sst_016/constant/polyMesh/faces filter=lfs diff=lfs merge=lfs -text

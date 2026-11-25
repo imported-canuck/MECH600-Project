@@ -1,0 +1,118 @@
+
+# checkMesh -allTopology
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2312                                  |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _1d8f0d55f7-20231221 OPENFOAM=2312 version=v2312
+Arch   : "LSB;label=32;scalar=64"
+Exec   : checkMesh -allTopology
+Date   : Nov 24 2026
+Time   : 17:14:50
+Host   : cpupool5.int.mech501.calculquebec.cloud
+PID    : 9626
+--> FOAM Warning : 
+    From Foam::fileName Foam::cwd_L()
+    in file POSIX.C at line 552
+    PWD is not the cwd() - reverting to physical description
+I/O    : uncollated
+--> FOAM Warning : 
+    From Foam::fileName Foam::cwd_L()
+    in file POSIX.C at line 552
+    PWD is not the cwd() - reverting to physical description
+Case   : /project/60004/carslan04/mech600-grid-study-20261124/results2/mesh-build.Lhcj5W
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+--> FOAM Warning : 
+    From static Foam::instantList Foam::timeSelector::select0(Foam::Time&, const Foam::argList&)
+    in file db/Time/timeSelector.C at line 258
+    No time specified or available, selecting 'constant'
+Create mesh for time = constant
+
+Check mesh...
+    Enabling all (cell, face, edge, point) topology checks.
+
+Time = constant
+
+Mesh stats 
+    points:           422028
+    internal points:  0
+    edges:            1052946
+    internal edges:   208890
+    internal edges using one boundary point:   0
+    internal edges using two boundary points:  208890
+    faces:            840870
+    internal faces:   418842
+    cells:            209952
+    faces per cell:   6
+    boundary patches: 3
+    point zones:      0
+    face zones:       0
+    cell zones:       0
+
+Overall number of cells of each type:
+    hexahedra:     209952
+    prisms:        0
+    wedges:        0
+    pyramids:      0
+    tet wedges:    0
+    tetrahedra:    0
+    polyhedra:     0
+
+Checking topology...
+    Boundary definition OK.
+    Cell to face addressing OK.
+    Point usage OK.
+    Upper triangular ordering OK.
+    Face vertices OK.
+    Topological cell zip-up check OK.
+    Face-face connectivity OK.
+  <<Writing 2 cells with two non-boundary faces to set twoInternalFacesCells
+    Number of regions: 1 (OK).
+
+Checking patch topology for multiply connected surfaces...
+    Patch               Faces    Points     Surface topology
+    airfoil             720      1440     ok (non-closed singly connected)  
+    farfield            1404     2808     ok (non-closed singly connected)  
+    frontAndBack        419904   422028   ok (non-closed singly connected)  
+    ".*"                422028   422028   ok (closed singly connected)      
+
+
+Checking faceZone topology for multiply connected surfaces...
+    No faceZones found.
+
+Checking basic cellZone addressing...
+    No cellZones found.
+
+Checking basic pointZone addressing...
+    No pointZones found.
+
+Checking geometry...
+    Overall domain bounding box (-4.94 -4.53153893518 0) (5.2 4.53153893518 0.002)
+    Mesh has 2 geometric (non-empty/wedge) directions (1 1 0)
+    Mesh has 2 solution (non-empty) directions (1 1 0)
+    All edges aligned with or perpendicular to non-empty directions.
+    Boundary openness (2.47838674086e-20 2.14780160566e-20 -4.36115283405e-16) OK.
+    Max cell openness = 2.55722923632e-14 OK.
+    Max aspect ratio = 480.564561954 OK.
+    Minimum face area = 4.05110227634e-11. Maximum face area = 0.0583957855183.  Face area magnitudes OK.
+    Min volume = 8.10220455267e-14. Max volume = 0.000116791571037.  Total volume = 0.169036096618.  Cell volumes OK.
+    Mesh non-orthogonality Max: 57.01553275 average: 23.0185930931
+    Non-orthogonality check OK.
+    Face pyramids OK.
+    Max skewness = 1.32134524858 OK.
+    Coupled point location match (average 0) OK.
+
+Mesh OK.
+
+End
+
